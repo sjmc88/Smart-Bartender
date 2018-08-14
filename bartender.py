@@ -26,11 +26,6 @@ RIGHT_PIN_BOUNCE = 2000
 OLED_RESET_PIN = 11
 OLED_DC_PIN = 13
 
-NUMBER_NEOPIXELS = 45
-NEOPIXEL_DATA_PIN = 26
-NEOPIXEL_CLOCK_PIN = 6
-NEOPIXEL_BRIGHTNESS = 64
-
 FLOW_RATE = 60.0/100.0
 
 class Bartender(MenuDelegate): 
@@ -68,23 +63,6 @@ class Bartender(MenuDelegate):
 		self.pump_configuration = Bartender.readPumpConfiguration()
 		for pump in self.pump_configuration.keys():
 			GPIO.setup(self.pump_configuration[pump]["pin"], GPIO.OUT, initial=GPIO.HIGH)
-
-		# setup pixels:
-		self.numpixels = NUMBER_NEOPIXELS # Number of LEDs in strip
-
-		# Here's how to control the strip from any two GPIO pins:
-		datapin  = NEOPIXEL_DATA_PIN
-		clockpin = NEOPIXEL_CLOCK_PIN
-		self.strip = Adafruit_DotStar(self.numpixels, datapin, clockpin)
-		self.strip.begin()           # Initialize pins for output
-		self.strip.setBrightness(NEOPIXEL_BRIGHTNESS) # Limit brightness to ~1/4 duty cycle
-
-		# turn everything off
-		for i in range(0, self.numpixels):
-			self.strip.setPixelColor(i, 0)
-		self.strip.show() 
-
-		print "Done initializing"
 
 	@staticmethod
 	def readPumpConfiguration():
