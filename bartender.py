@@ -363,6 +363,7 @@ class Bartender(MenuDelegate):
 
 print("Hello,", "world!") 
 bartender = Bartender()
+print("Hello,", "world!")
 bartender.buildMenu(drink_list, drink_options)
 bartender.run()
 
