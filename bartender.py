@@ -332,13 +332,11 @@ class Bartender(MenuDelegate):
 	def left_btn(self, ctx):
 		if not self.running:
 			self.menuContext.advance()
-		print("Left")
-
+		
 	def right_btn(self, ctx):
 		if not self.running:
 			self.menuContext.select()
-		print("Right")
-
+	
 	def updateProgressBar(self, percent, x=15, y=15):
 		height = 10
 		width = self.screen_width-2*x
@@ -368,7 +366,6 @@ class Bartender(MenuDelegate):
 
 print("Hello,", "world!") 
 bartender = Bartender()
-print("Bye")
 bartender.buildMenu(drink_list, drink_options)
-bartender.run()
+'bartender.menuContext.select()'
 
