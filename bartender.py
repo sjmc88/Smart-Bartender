@@ -13,7 +13,7 @@ from menu import MenuItem, Menu, Back, MenuContext, MenuDelegate
 from drinks import drink_list, drink_options
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(27,GPIO.OUT1,initial=1)
+GPIO.setup(27,GPIO.OUT,initial=1)
 
 
 SCREEN_WIDTH = 128
