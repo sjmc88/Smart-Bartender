@@ -1,4 +1,6 @@
-import tkFont
+import gaugette.ssd1306
+import gaugette.platform
+import gaugette.gpio
 import time
 import sys
 import RPi.GPIO as GPIO
@@ -6,10 +8,14 @@ import json
 import threading
 import traceback
 
+from dotstar import Adafruit_DotStar
 from menu import MenuItem, Menu, Back, MenuContext, MenuDelegate
 from drinks import drink_list, drink_options
 
 GPIO.setmode(GPIO.BCM)
+
+SCREEN_WIDTH = 128
+SCREEN_HEIGHT = 64
 
 LEFT_BTN_PIN = 38
 LEFT_PIN_BOUNCE = 1000
@@ -17,15 +23,24 @@ LEFT_PIN_BOUNCE = 1000
 RIGHT_BTN_PIN = 40
 RIGHT_PIN_BOUNCE = 2000
 
+OLED_RESET_PIN = 15
+OLED_DC_PIN = 16
+
+NUMBER_NEOPIXELS = 45
+NEOPIXEL_DATA_PIN = 26
+NEOPIXEL_CLOCK_PIN = 6
+NEOPIXEL_BRIGHTNESS = 64
+
 FLOW_RATE = 60.0/100.0
-
-win = Tk()
-
-myFont = tkFont.Font(family= 'Helvetica', size = 36, weight = 'bold')
+if add a print like 'print("hello")' before 'bartender = Bartender()'
 
 class Bartender(MenuDelegate): 
 	def __init__(self):
 		self.running = False
+
+		# set the oled screen height
+		self.screen_width = SCREEN_WIDTH
+		self.screen_height = SCREEN_HEIGHT
 
 		self.btn1Pin = LEFT_BTN_PIN
 		self.btn2Pin = RIGHT_BTN_PIN
@@ -34,10 +49,43 @@ class Bartender(MenuDelegate):
 	 	GPIO.setup(self.btn1Pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 		GPIO.setup(self.btn2Pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
 
+		# configure screen
+		spi_bus = 0
+		spi_device = 0
+		gpio = gaugette.gpio.GPIO()
+		spi = gaugette.spi.SPI(spi_bus, spi_device)
+
+		# Very important... This lets py-gaugette 'know' what pins to use in order to reset the display
+		self.led = gaugette.ssd1306.SSD1306(gpio, spi, reset_pin=OLED_RESET_PIN, dc_pin=OLED_DC_PIN, rows=self.screen_height, cols=self.screen_width) # Change rows & cols values depending on your display dimensions.
+		self.led.begin()
+		self.led.clear_display()
+		self.led.display()
+		self.led.invert_display()
+		time.sleep(0.5)
+		self.led.normal_display()
+		time.sleep(0.5)
+
 		# load the pump configuration from file
 		self.pump_configuration = Bartender.readPumpConfiguration()
 		for pump in self.pump_configuration.keys():
 			GPIO.setup(self.pump_configuration[pump]["pin"], GPIO.OUT, initial=GPIO.HIGH)
+
+		# setup pixels:
+		self.numpixels = NUMBER_NEOPIXELS # Number of LEDs in strip
+
+		# Here's how to control the strip from any two GPIO pins:
+		datapin  = NEOPIXEL_DATA_PIN
+		clockpin = NEOPIXEL_CLOCK_PIN
+		self.strip = Adafruit_DotStar(self.numpixels, datapin, clockpin)
+		self.strip.begin()           # Initialize pins for output
+		self.strip.setBrightness(NEOPIXEL_BRIGHTNESS) # Limit brightness to ~1/4 duty cycle
+
+		# turn everything off
+		for i in range(0, self.numpixels):
+			self.strip.setPixelColor(i, 0)
+		self.strip.show() 
+
+		print "Done initializing"
 
 	@staticmethod
 	def readPumpConfiguration():
@@ -183,6 +231,40 @@ class Bartender(MenuDelegate):
 		self.led.draw_text2(0,20,menuItem.name,2)
 		self.led.display()
 
+	def cycleLights(self):
+		t = threading.currentThread()
+		head  = 0               # Index of first 'on' pixel
+		tail  = -10             # Index of last 'off' pixel
+		color = 0xFF0000        # 'On' color (starts red)
+
+		while getattr(t, "do_run", True):
+			self.strip.setPixelColor(head, color) # Turn on 'head' pixel
+			self.strip.setPixelColor(tail, 0)     # Turn off 'tail'
+			self.strip.show()                     # Refresh strip
+			time.sleep(1.0 / 50)             # Pause 20 milliseconds (~50 fps)
+
+			head += 1                        # Advance head position
+			if(head >= self.numpixels):           # Off end of strip?
+				head    = 0              # Reset to start
+				color >>= 8              # Red->green->blue->black
+				if(color == 0): color = 0xFF0000 # If black, reset to red
+
+			tail += 1                        # Advance tail position
+			if(tail >= self.numpixels): tail = 0  # Off end? Reset
+
+	def lightsEndingSequence(self):
+		# make lights green
+		for i in range(0, self.numpixels):
+			self.strip.setPixelColor(i, 0xFF0000)
+		self.strip.show()
+
+		time.sleep(5)
+
+		# turn lights off
+		for i in range(0, self.numpixels):
+			self.strip.setPixelColor(i, 0)
+		self.strip.show() 
+
 	def pour(self, pin, waitTime):
 		GPIO.output(pin, GPIO.LOW)
 		time.sleep(waitTime)
@@ -200,6 +282,10 @@ class Bartender(MenuDelegate):
 		# cancel any button presses while the drink is being made
 		# self.stopInterrupts()
 		self.running = True
+
+		# launch a thread to control lighting
+		lightsThread = threading.Thread(target=self.cycleLights)
+		lightsThread.start()
 
 		# Parse the drink ingredients and spawn threads for pumps
 		maxTime = 0
@@ -279,7 +365,4 @@ class Bartender(MenuDelegate):
 bartender = Bartender()
 bartender.buildMenu(drink_list, drink_options)
 bartender.run()
-
-
-
 
