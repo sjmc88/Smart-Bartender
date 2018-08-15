@@ -32,7 +32,7 @@ NEOPIXEL_CLOCK_PIN = 6
 NEOPIXEL_BRIGHTNESS = 64
 
 FLOW_RATE = 60.0/100.0
-if add a print like 'print("hello")' before 'bartender = Bartender()'
+if add print like 'print("hello")' before 'bartender = Bartender()'
 
 class Bartender(MenuDelegate): 
 	def __init__(self):
