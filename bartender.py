@@ -27,8 +27,8 @@ OLED_RESET_PIN = 15
 OLED_DC_PIN = 16
 
 NUMBER_NEOPIXELS = 45
-NEOPIXEL_DATA_PIN = 26
-NEOPIXEL_CLOCK_PIN = 6
+PIXEL_DATA_PIN = 26
+PIXEL_CLOCK_PIN = 6
 NEOPIXEL_BRIGHTNESS = 64
 
 FLOW_RATE = 60.0/100.0
@@ -80,9 +80,9 @@ class Bartender(MenuDelegate):
 		#self.strip.setBrightness(NEOPIXEL_BRIGHTNESS) # Limit brightness to ~1/4 duty cycle
 
 		# turn everything off
-		for i in range(0, self.numpixels):
-			self.strip.setPixelColor(i, 0)
-		self.strip.show() 
+		#for i in range(0, self.numpixels):
+		#	self.strip.setPixelColor(i, 0)
+		#self.strip.show() 
 
 		print "Done initializing"
 
