@@ -361,8 +361,8 @@ class Bartender(MenuDelegate):
 		traceback.print_exc()
 
 
-'bartender.menuContext.select()'
+print("Hello,"world!")
 bartender = Bartender()
 bartender.buildMenu(drink_list, drink_options)
-bartender.run()
+bartender.menuContext.select()
 
