@@ -66,8 +66,8 @@ class Bartender(MenuDelegate):
 
 		# load the pump configuration from file
 		self.pump_configuration = Bartender.readPumpConfiguration()
-		for pump in self.pump_configuration.keys():
-			GPIO.setup(self.pump_configuration[pump]["pin"], GPIO.OUT, initial=GPIO.HIGH)
+		#for pump in self.pump_configuration.keys():
+			#GPIO.setup(self.pump_configuration[pump]["pin"], GPIO.OUT, initial=GPIO.HIGH)
 
 		# setup pixels:
 		#self.numpixels = NUMBER_NEOPIXELS # Number of LEDs in strip
