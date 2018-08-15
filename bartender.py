@@ -33,8 +33,8 @@ NEOPIXEL_CLOCK_PIN = 6
 NEOPIXEL_BRIGHTNESS = 64
 
 FLOW_RATE = 60.0/100.0
-if LEFT_BTN_PIN print("left")
-if RIGHT_BTN_PIN print("right")
+if LEFT_BTN_PIN add print("left")
+if RIGHT_BTN_PIN add print("right")
 
 class Bartender(MenuDelegate): 
 	def __init__(self):
