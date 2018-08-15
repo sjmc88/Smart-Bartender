@@ -361,7 +361,7 @@ class Bartender(MenuDelegate):
 		traceback.print_exc()
 
 
-add 'print("hello")'
+print("Hello,", "world!") 
 bartender = Bartender()
 bartender.buildMenu(drink_list, drink_options)
 bartender.run()
