@@ -226,9 +226,9 @@ class Bartender(MenuDelegate):
 
 	def displayMenuItem(self, menuItem):
 		print menuItem.name
-		self.led.clear_display()
-		self.led.draw_text2(0,20,menuItem.name,2)
-		self.led.display()
+		#self.led.clear_display()
+		#self.led.draw_text2(0,20,menuItem.name,2)
+		#self.led.display()
 
 	#def cycleLights(self):
 		#t = threading.currentThread()
