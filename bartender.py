@@ -14,7 +14,7 @@ from drinks import drink_list, drink_options
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(27, GPIO.OUT)
-GPIO.output(27,HIGH)
+GPIO.output(27,GPIO.HIGH)
 
 SCREEN_WIDTH = 128
 SCREEN_HEIGHT = 64
