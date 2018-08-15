@@ -33,8 +33,6 @@ NEOPIXEL_CLOCK_PIN = 6
 NEOPIXEL_BRIGHTNESS = 64
 
 FLOW_RATE = 60.0/100.0
-if LEFT_BTN_PIN add print("left")
-if RIGHT_BTN_PIN add print("right")
 
 class Bartender(MenuDelegate): 
 	def __init__(self):
@@ -332,10 +330,12 @@ class Bartender(MenuDelegate):
 	def left_btn(self, ctx):
 		if not self.running:
 			self.menuContext.advance()
+		print("Left")
 
 	def right_btn(self, ctx):
 		if not self.running:
 			self.menuContext.select()
+		print("Right")
 
 	def updateProgressBar(self, percent, x=15, y=15):
 		height = 10
