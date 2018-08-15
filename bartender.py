@@ -230,39 +230,39 @@ class Bartender(MenuDelegate):
 		self.led.draw_text2(0,20,menuItem.name,2)
 		self.led.display()
 
-	def cycleLights(self):
-		t = threading.currentThread()
-		head  = 0               # Index of first 'on' pixel
-		tail  = -10             # Index of last 'off' pixel
-		color = 0xFF0000        # 'On' color (starts red)
+	#def cycleLights(self):
+		#t = threading.currentThread()
+		#head  = 0               # Index of first 'on' pixel
+		#tail  = -10             # Index of last 'off' pixel
+		#color = 0xFF0000        # 'On' color (starts red)
 
-		while getattr(t, "do_run", True):
-			self.strip.setPixelColor(head, color) # Turn on 'head' pixel
-			self.strip.setPixelColor(tail, 0)     # Turn off 'tail'
-			self.strip.show()                     # Refresh strip
-			time.sleep(1.0 / 50)             # Pause 20 milliseconds (~50 fps)
+		#while getattr(t, "do_run", True):
+		#	self.strip.setPixelColor(head, color) # Turn on 'head' pixel
+		#	self.strip.setPixelColor(tail, 0)     # Turn off 'tail'
+		#	self.strip.show()                     # Refresh strip
+		#	time.sleep(1.0 / 50)             # Pause 20 milliseconds (~50 fps)
 
-			head += 1                        # Advance head position
-			if(head >= self.numpixels):           # Off end of strip?
-				head    = 0              # Reset to start
-				color >>= 8              # Red->green->blue->black
-				if(color == 0): color = 0xFF0000 # If black, reset to red
+		#	head += 1                        # Advance head position
+		#	if(head >= self.numpixels):           # Off end of strip?
+		#		head    = 0              # Reset to start
+		#		color >>= 8              # Red->green->blue->black
+		#		if(color == 0): color = 0xFF0000 # If black, reset to red
 
-			tail += 1                        # Advance tail position
-			if(tail >= self.numpixels): tail = 0  # Off end? Reset
+		#	tail += 1                        # Advance tail position
+		#	if(tail >= self.numpixels): tail = 0  # Off end? Reset
 
-	def lightsEndingSequence(self):
+	#def lightsEndingSequence(self):
 		# make lights green
-		for i in range(0, self.numpixels):
-			self.strip.setPixelColor(i, 0xFF0000)
-		self.strip.show()
+		#for i in range(0, self.numpixels):
+		#	self.strip.setPixelColor(i, 0xFF0000)
+		#self.strip.show()
 
-		time.sleep(5)
+		#time.sleep(5)
 
 		# turn lights off
-		for i in range(0, self.numpixels):
-			self.strip.setPixelColor(i, 0)
-		self.strip.show() 
+		#for i in range(0, self.numpixels):
+		#	self.strip.setPixelColor(i, 0)
+		#self.strip.show() 
 
 	def pour(self, pin, waitTime):
 		GPIO.output(pin, GPIO.LOW)
@@ -283,8 +283,8 @@ class Bartender(MenuDelegate):
 		self.running = True
 
 		# launch a thread to control lighting
-		lightsThread = threading.Thread(target=self.cycleLights)
-		lightsThread.start()
+		#lightsThread = threading.Thread(target=self.cycleLights)
+		#lightsThread.start()
 
 		# Parse the drink ingredients and spawn threads for pumps
 		maxTime = 0
@@ -313,11 +313,11 @@ class Bartender(MenuDelegate):
 		self.menuContext.showMenu()
 
 		# stop the light thread
-		lightsThread.do_run = False
-		lightsThread.join()
+		#lightsThread.do_run = False
+		#lightsThread.join()
 
 		# show the ending sequence lights
-		self.lightsEndingSequence()
+		#self.lightsEndingSequence()
 
 		# sleep for a couple seconds to make sure the interrupts don't get triggered
 		time.sleep(2);
