@@ -367,4 +367,5 @@ print("Hello,","world")
 bartender = Bartender()
 bartender.buildMenu(drink_list, drink_options)
 bartender.menuContext.select()
+GPIO.cleanup()
 
