@@ -51,18 +51,18 @@ class Bartender(MenuDelegate):
 		# configure screen
 		spi_bus = 0
 		spi_device = 0
-		gpio = gaugette.gpio.GPIO()
-		spi = gaugette.spi.SPI(spi_bus, spi_device)
+		#gpio = gaugette.gpio.GPIO()
+		#spi = gaugette.spi.SPI(spi_bus, spi_device)
 
 		# Very important... This lets py-gaugette 'know' what pins to use in order to reset the display
-		self.led = gaugette.ssd1306.SSD1306(gpio, spi, reset_pin=OLED_RESET_PIN, dc_pin=OLED_DC_PIN, rows=self.screen_height, cols=self.screen_width) # Change rows & cols values depending on your display dimensions.
-		self.led.begin()
-		self.led.clear_display()
-		self.led.display()
-		self.led.invert_display()
-		time.sleep(0.5)
-		self.led.normal_display()
-		time.sleep(0.5)
+		#self.led = gaugette.ssd1306.SSD1306(gpio, spi, reset_pin=OLED_RESET_PIN, dc_pin=OLED_DC_PIN, rows=self.screen_height, cols=self.screen_width) # Change rows & cols values depending on your display dimensions.
+		#self.led.begin()
+		#self.led.clear_display()
+		#self.led.display()
+		#self.led.invert_display()
+		#time.sleep(0.5)
+		#self.led.normal_display()
+		#time.sleep(0.5)
 
 		# load the pump configuration from file
 		self.pump_configuration = Bartender.readPumpConfiguration()
