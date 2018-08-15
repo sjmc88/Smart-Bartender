@@ -303,7 +303,7 @@ class Bartender(MenuDelegate):
 			thread.start()
 
 		# start the progress bar
-		self.progressBar(maxTime)
+		#self.progressBar(maxTime)
 
 		# wait for threads to finish
 		for thread in pumpThreads:
@@ -320,7 +320,7 @@ class Bartender(MenuDelegate):
 		#self.lightsEndingSequence()
 
 		# sleep for a couple seconds to make sure the interrupts don't get triggered
-		time.sleep(2);
+		#time.sleep(2);
 
 		# reenable interrupts
 		# self.startInterrupts()
@@ -338,14 +338,14 @@ class Bartender(MenuDelegate):
 		height = 10
 		width = self.screen_width-2*x
 		for w in range(0, width):
-			self.led.draw_pixel(w + x, y)
-			self.led.draw_pixel(w + x, y + height)
+			#self.led.draw_pixel(w + x, y)
+			#self.led.draw_pixel(w + x, y + height)
 		for h in range(0, height):
-			self.led.draw_pixel(x, h + y)
-			self.led.draw_pixel(self.screen_width-x, h + y)
+			#self.led.draw_pixel(x, h + y)
+			#self.led.draw_pixel(self.screen_width-x, h + y)
 			for p in range(0, percent):
 				p_loc = int(p/100.0*width)
-				self.led.draw_pixel(x + p_loc, h + y)
+				#self.led.draw_pixel(x + p_loc, h + y)
 
 	def run(self):
 		self.startInterrupts()
