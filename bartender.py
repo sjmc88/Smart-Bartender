@@ -13,7 +13,7 @@ from menu import MenuItem, Menu, Back, MenuContext, MenuDelegate
 from drinks import drink_list, drink_options
 
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(27,GPIO.OUT)
+GPIO.setup(27,GPIO.OUT1)
 GPIO.output(27,GPIO.HIGH)
 
 SCREEN_WIDTH = 128
@@ -34,6 +34,8 @@ PIXEL_CLOCK_PIN = 6
 NEOPIXEL_BRIGHTNESS = 64
 
 FLOW_RATE = 60.0/100.0
+
+GPIO.setup(["27"], GPIO.OUT1, initial=GPIO.HIGH)
 
 class Bartender(MenuDelegate): 
 	def __init__(self):
