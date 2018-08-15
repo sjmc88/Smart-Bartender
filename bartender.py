@@ -334,17 +334,17 @@ class Bartender(MenuDelegate):
 		if not self.running:
 			self.menuContext.select()
 	
-	def updateProgressBar(self, percent, x=15, y=15):
-		height = 10
-		width = self.screen_width-2*x
-		for w in range(0, width):
+	#def updateProgressBar(self, percent, x=15, y=15):
+		#height = 10
+		#width = self.screen_width-2*x
+		#for w in range(0, width):
 			#self.led.draw_pixel(w + x, y)
 			#self.led.draw_pixel(w + x, y + height)
-		for h in range(0, height):
+		#for h in range(0, height):
 			#self.led.draw_pixel(x, h + y)
 			#self.led.draw_pixel(self.screen_width-x, h + y)
-			for p in range(0, percent):
-				p_loc = int(p/100.0*width)
+			#for p in range(0, percent):
+				#p_loc = int(p/100.0*width)
 				#self.led.draw_pixel(x + p_loc, h + y)
 
 	def run(self):
